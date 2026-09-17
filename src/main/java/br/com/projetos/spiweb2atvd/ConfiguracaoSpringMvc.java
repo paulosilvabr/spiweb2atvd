@@ -1,4 +1,4 @@
-﻿package br.com.projetos.spiweb2atvd.config;
+package br.com.projetos.spiweb2atvd;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -9,6 +9,6 @@ public class ConfiguracaoSpringMvc implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/consultas");
+        registry.addViewController("/").setViewName("forward:/consulta/list");
     }
 }

@@ -1,78 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${consulta.id == null} ? 'Nova Consulta' : 'Editar Consulta'">Formulário de Consulta</title>
+    <title>Formulário de Consulta</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="container">
-    <div class="page-header">
-        <h1 th:text="${consulta.id == null} ? 'Nova Consulta' : 'Editar Consulta'">Formulário</h1>
-    </div>
-
-    <nav class="nav-links">
-        <a href="/pacientes">Pacientes</a>
-        <a href="/medicos">Médicos</a>
-        <a href="/consultas">Consultas</a>
+    <nav class="navbar">
+        <a th:href="@{/paciente/list}">Pacientes</a>
+        <a th:href="@{/medico/list}">Médicos</a>
+        <a th:href="@{/consulta/list}">Consultas</a>
     </nav>
-
-    <div class="card">
-        <form th:action="@{/consultas/salvar}" method="post">
-            <input type="hidden" name="id" th:value="${consulta.id}">
-
+    <div class="container">
+        <h1 th:text="${consulta.id == null ? 'Nova Consulta' : 'Editar Consulta'}">Formulário</h1>
+        
+        <form th:action="@{${consulta.id == null ? '/consulta/save' : '/consulta/update'}}" th:object="${consulta}" method="post">
+            <input type="hidden" th:field="*{id}">
+            
             <div class="form-group">
-                <label for="pacienteId">Paciente</label>
-                <select id="pacienteId" name="pacienteId" class="form-control">
-                    <option value="">-- Selecione um Paciente --</option>
-                    <option th:each="paciente : ${pacientes}"
-                            th:value="${paciente.id}"
-                            th:text="${paciente.nome}"
-                            th:selected="${consulta.paciente != null and consulta.paciente.id == paciente.id}">
-                        Paciente
-                    </option>
+                <label for="paciente">Paciente</label>
+                <select id="paciente" th:field="*{paciente}" required>
+                    <option value="">Selecione...</option>
+                    <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="medicoId">Médico</label>
-                <select id="medicoId" name="medicoId" class="form-control">
-                    <option value="">-- Selecione um Médico --</option>
-                    <option th:each="medico : ${medicos}"
-                            th:value="${medico.id}"
-                            th:text="${medico.nome}"
-                            th:selected="${consulta.medico != null and consulta.medico.id == medico.id}">
-                        Médico
-                    </option>
+                <label for="medico">Médico</label>
+                <select id="medico" th:field="*{medico}" required>
+                    <option value="">Selecione...</option>
+                    <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome}"></option>
                 </select>
             </div>
-
+            
             <div class="form-group">
                 <label for="data">Data e Hora</label>
-                <input type="datetime-local" id="data" name="data" class="form-control"
-                       th:value="${consulta.data != null} ? ${#temporals.format(consulta.data, 'yyyy-MM-dd''T''HH:mm')} : ''">
+                <input type="datetime-local" id="data" th:field="*{data}" required>
             </div>
-
+            
             <div class="form-group">
                 <label for="valor">Valor (R$)</label>
-                <input type="number" id="valor" name="valor" class="form-control"
-                       step="0.01" min="0"
-                       th:value="${consulta.valor}">
+                <input type="number" step="0.01" id="valor" th:field="*{valor}" required>
             </div>
-
+            
             <div class="form-group">
                 <label for="observacao">Observação</label>
-                <textarea id="observacao" name="observacao" class="form-control" rows="4"
-                          placeholder="Observações sobre a consulta..." th:text="${consulta.observacao}"></textarea>
+                <textarea id="observacao" th:field="*{observacao}" rows="3"></textarea>
             </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <a href="/consultas" class="btn btn-secondary">Cancelar</a>
+            
+            <div class="d-flex mt-3">
+                <button type="submit" class="btn">Salvar</button>
+                <a th:href="@{/consulta/list}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
     </div>
-</div>
 </body>
 </html>

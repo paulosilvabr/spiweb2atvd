@@ -1,63 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${medico.id == null} ? 'Novo Médico' : 'Editar Médico'">Formulário de Médico</title>
+    <title>Formulário de Médico</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div class="container">
-    <div class="page-header">
-        <h1 th:text="${medico.id == null} ? 'Novo Médico' : 'Editar Médico'">Formulário</h1>
-    </div>
-
-    <nav class="nav-links">
-        <a href="/pacientes">Pacientes</a>
-        <a href="/medicos">Médicos</a>
-        <a href="/consultas">Consultas</a>
+    <nav class="navbar">
+        <a th:href="@{/paciente/list}">Pacientes</a>
+        <a th:href="@{/medico/list}">Médicos</a>
+        <a th:href="@{/consulta/list}">Consultas</a>
     </nav>
-
-    <div class="card">
-        <form th:action="@{/medicos/salvar}" method="post">
-            <input type="hidden" name="id" th:value="${medico.id}">
-
+    <div class="container">
+        <h1 th:text="${medico.id == null ? 'Novo Médico' : 'Editar Médico'}">Formulário</h1>
+        
+        <form th:action="@{${medico.id == null ? '/medico/save' : '/medico/update'}}" th:object="${medico}" method="post">
+            <input type="hidden" th:field="*{id}">
+            
             <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" name="nome" class="form-control"
-                       th:value="${medico.nome}" placeholder="Digite o nome completo">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" th:field="*{nome}" required>
             </div>
-
-            <div class="form-group">
-                <label for="cpf">CPF</label>
-                <input type="text" id="cpf" name="cpf" class="form-control"
-                       th:value="${medico.cpf}" placeholder="000.000.000-00">
-            </div>
-
+            
             <div class="form-group">
                 <label for="crm">CRM</label>
-                <input type="text" id="crm" name="crm" class="form-control"
-                       th:value="${medico.crm}" placeholder="00000-UF">
+                <input type="text" id="crm" th:field="*{crm}" required>
             </div>
-
-            <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="text" id="telefone" name="telefone" class="form-control"
-                       th:value="${medico.telefone}" placeholder="(00) 00000-0000">
-            </div>
-
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" class="form-control"
-                       th:value="${medico.email}" placeholder="exemplo@clinica.com">
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <a href="/medicos" class="btn btn-secondary">Cancelar</a>
+            
+            <div class="d-flex mt-3">
+                <button type="submit" class="btn">Salvar</button>
+                <a th:href="@{/medico/list}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
     </div>
-</div>
 </body>
 </html>
