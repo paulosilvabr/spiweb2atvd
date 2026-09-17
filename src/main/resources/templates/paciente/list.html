@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pacientes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1>Pacientes</h1>
+        <a href="/pacientes/novo" class="btn btn-primary">+ Novo Paciente</a>
+    </div>
+
+    <nav class="nav-links">
+        <a href="/pacientes">Pacientes</a>
+        <a href="/medicos">Médicos</a>
+        <a href="/consultas">Consultas</a>
+    </nav>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="paciente : ${pacientes}">
+                <td th:text="${paciente.id}">1</td>
+                <td th:text="${paciente.nome}">Nome</td>
+                <td th:text="${paciente.cpf}">CPF</td>
+                <td th:text="${paciente.telefone}">Telefone</td>
+                <td th:text="${paciente.email}">Email</td>
+                <td class="acoes">
+                    <a th:href="@{/pacientes/editar/{id}(id=${paciente.id})}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{/pacientes/excluir/{id}(id=${paciente.id})}" class="btn btn-danger"
+                       onclick="return confirm('Deseja excluir este paciente?')">Excluir</a>
+                    <a th:href="@{/pacientes/{id}/consultas(id=${paciente.id})}" class="btn btn-info">Ver Consultas</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pacientes)}">
+                <td colspan="6" class="text-center">Nenhum paciente cadastrado.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
