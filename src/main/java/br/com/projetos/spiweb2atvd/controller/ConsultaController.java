@@ -81,11 +81,14 @@ public class ConsultaController {
     }
 
     /**
-     * Assim como no save(), este método recebe os dados editados, atualiza
+     * Assim como no save(), este metodo recebe os dados editados, atualiza
      * e novamente utiliza o padrão PRG redirecionando a página.
      */
     @PostMapping("/update")
-    public String update(Consulta consulta) {
+    public String update(Consulta consulta, @RequestParam Long pacienteId, @RequestParam Long medicoId) {
+        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()));
+        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()));
+
         repository.update(consulta);
         return "redirect:/consulta/list";
     }
