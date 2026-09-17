@@ -19,7 +19,7 @@
             
             <div class="form-group">
                 <label for="paciente">Paciente</label>
-                <select id="paciente" th:field="*{paciente}" required>
+                <select id="paciente" th:field="*{paciente.id}" required>
                     <option value="">Selecione...</option>
                     <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
@@ -27,7 +27,7 @@
 
             <div class="form-group">
                 <label for="medico">Médico</label>
-                <select id="medico" th:field="*{medico}" required>
+                <select id="medico" th:field="*{medico.id}" required>
                     <option value="">Selecione...</option>
                     <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome}"></option>
                 </select>
