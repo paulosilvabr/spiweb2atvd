@@ -1,4 +1,4 @@
-﻿package br.com.projetos.spiweb2atvd;
+package br.com.projetos.spiweb2atvd;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
