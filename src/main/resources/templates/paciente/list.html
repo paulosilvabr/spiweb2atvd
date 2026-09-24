@@ -1,28 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Pacientes</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-    <nav class="navbar">
-        <a th:href="@{/paciente/list}">Pacientes</a>
-        <a th:href="@{/medico/list}">Médicos</a>
-        <a th:href="@{/consulta/list}">Consultas</a>
-    </nav>
+<html th:replace="~{fragments/layout :: layout('Pacientes', ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="content">
     <div class="container">
         <h1>Pacientes Cadastrados</h1>
         <div class="d-flex" style="margin-bottom: 20px;">
-            <a th:href="@{/paciente/form}" class="btn">Novo Paciente</a>
+            <a th:href="@{/paciente/form}" class="btn btn-primary">Novo Paciente</a>
         </div>
-        
+
         <div th:if="${#lists.isEmpty(pacientes)}">
             <p>Nenhum paciente cadastrado.</p>
         </div>
-        
-        <table th:unless="${#lists.isEmpty(pacientes)}">
-            <thead>
+
+        <table th:unless="${#lists.isEmpty(pacientes)}" class="table table-striped table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
@@ -35,14 +25,14 @@
                     <td th:text="${p.id}"></td>
                     <td th:text="${p.nome}"></td>
                     <td th:text="${p.telefone}"></td>
-                    <td class="d-flex">
-                        <a th:href="@{/paciente/consultas/{id}(id=${p.id})}" class="btn" style="background-color: #10b981;">Ver Consultas</a>
-                        <a th:href="@{/paciente/edit/{id}(id=${p.id})}" class="btn">Editar</a>
-                        <a th:href="@{/paciente/remove/{id}(id=${p.id})}" class="btn btn-danger">Excluir</a>
+                    <td class="d-flex gap-2">
+                        <a th:href="@{/paciente/consultas/{id}(id=${p.id})}" class="btn btn-success btn-sm">Ver Consultas</a>
+                        <a th:href="@{/paciente/edit/{id}(id=${p.id})}" class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/paciente/remove/{id}(id=${p.id})}" class="btn btn-danger btn-sm">Excluir</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</body>
+</th:block>
 </html>

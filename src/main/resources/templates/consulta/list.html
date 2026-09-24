@@ -1,28 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Agenda de Consultas</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-    <nav class="navbar">
-        <a th:href="@{/paciente/list}">Pacientes</a>
-        <a th:href="@{/medico/list}">Médicos</a>
-        <a th:href="@{/consulta/list}">Consultas</a>
-    </nav>
+<html th:replace="~{fragments/layout :: layout('Agenda de Consultas', ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="content">
     <div class="container">
         <h1>Agenda de Consultas</h1>
         <div class="d-flex" style="margin-bottom: 20px;">
-            <a th:href="@{/consulta/form}" class="btn">Nova Consulta</a>
+            <a th:href="@{/consulta/form}" class="btn btn-primary">Nova Consulta</a>
         </div>
-        
+
         <div th:if="${#lists.isEmpty(consultas)}">
             <p>Nenhuma consulta agendada.</p>
         </div>
-        
-        <table th:unless="${#lists.isEmpty(consultas)}">
-            <thead>
+
+        <table th:unless="${#lists.isEmpty(consultas)}" class="table table-striped table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th>Data</th>
                     <th>Paciente</th>
@@ -37,13 +27,13 @@
                     <td th:text="${c.paciente.nome}"></td>
                     <td th:text="${c.medico.nome}"></td>
                     <td th:text="${c.valor}"></td>
-                    <td class="d-flex">
-                        <a th:href="@{/consulta/edit/{id}(id=${c.id})}" class="btn">Editar</a>
-                        <a th:href="@{/consulta/remove/{id}(id=${c.id})}" class="btn btn-danger">Cancelar</a>
+                    <td class="d-flex gap-2">
+                        <a th:href="@{/consulta/edit/{id}(id=${c.id})}" class="btn btn-primary btn-sm">Editar</a>
+                        <a th:href="@{/consulta/remove/{id}(id=${c.id})}" class="btn btn-danger btn-sm">Cancelar</a>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-</body>
+</th:block>
 </html>

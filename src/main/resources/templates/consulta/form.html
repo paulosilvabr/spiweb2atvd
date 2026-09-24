@@ -1,58 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulário de Consulta</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-<body>
-    <nav class="navbar">
-        <a th:href="@{/paciente/list}">Pacientes</a>
-        <a th:href="@{/medico/list}">Médicos</a>
-        <a th:href="@{/consulta/list}">Consultas</a>
-    </nav>
+<html th:replace="~{fragments/layout :: layout('Formulário de Consulta', ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="content">
     <div class="container">
         <h1 th:text="${consulta.id == null ? 'Nova Consulta' : 'Editar Consulta'}">Formulário</h1>
-        
+
         <form th:action="@{${consulta.id == null ? '/consulta/save' : '/consulta/update'}}" th:object="${consulta}" method="post">
             <input type="hidden" th:field="*{id}">
-            
-            <div class="form-group">
-                <label for="paciente">Paciente</label>
-                <select id="paciente" th:field="*{paciente.id}" required>
+
+            <div class="mb-3">
+                <label for="paciente" class="form-label">Paciente</label>
+                <select id="paciente" class="form-select" th:field="*{paciente.id}" required>
                     <option value="">Selecione...</option>
                     <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="medico">Médico</label>
-                <select id="medico" th:field="*{medico.id}" required>
+            <div class="mb-3">
+                <label for="medico" class="form-label">Médico</label>
+                <select id="medico" class="form-select" th:field="*{medico.id}" required>
                     <option value="">Selecione...</option>
                     <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome}"></option>
                 </select>
             </div>
-            
-            <div class="form-group">
-                <label for="data">Data e Hora</label>
-                <input type="datetime-local" id="data" th:field="*{data}" required>
+
+            <div class="mb-3">
+                <label for="data" class="form-label">Data e Hora</label>
+                <input type="datetime-local" id="data" class="form-control" th:field="*{data}" required>
             </div>
-            
-            <div class="form-group">
-                <label for="valor">Valor (R$)</label>
-                <input type="number" step="0.01" id="valor" th:field="*{valor}" required>
+
+            <div class="mb-3">
+                <label for="valor" class="form-label">Valor (R$)</label>
+                <input type="number" step="0.01" id="valor" class="form-control" th:field="*{valor}" required>
             </div>
-            
-            <div class="form-group">
-                <label for="observacao">Observação</label>
-                <textarea id="observacao" th:field="*{observacao}" rows="3"></textarea>
+
+            <div class="mb-3">
+                <label for="observacao" class="form-label">Observação</label>
+                <textarea id="observacao" class="form-control" th:field="*{observacao}" rows="3"></textarea>
             </div>
-            
+
             <div class="d-flex mt-3">
-                <button type="submit" class="btn">Salvar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
                 <a th:href="@{/consulta/list}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
     </div>
-</body>
+</th:block>
 </html>
