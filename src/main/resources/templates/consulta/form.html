@@ -9,33 +9,38 @@
 
             <div class="mb-3">
                 <label for="paciente" class="form-label">Paciente</label>
-                <select id="paciente" class="form-select" th:field="*{paciente.id}" required>
+                <select id="paciente" class="form-select" th:field="*{paciente.id}" th:errorclass="is-invalid">
                     <option value="">Selecione...</option>
                     <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('paciente')}" th:errors="*{paciente}"></div>
             </div>
 
             <div class="mb-3">
                 <label for="medico" class="form-label">Médico</label>
-                <select id="medico" class="form-select" th:field="*{medico.id}" required>
+                <select id="medico" class="form-select" th:field="*{medico.id}" th:errorclass="is-invalid">
                     <option value="">Selecione...</option>
                     <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome}"></option>
                 </select>
+                <div class="invalid-feedback" th:errors="*{medico}" th:if="${#fields.hasErrors('medico')}"></div>
             </div>
 
             <div class="mb-3">
                 <label for="data" class="form-label">Data e Hora</label>
-                <input type="datetime-local" id="data" class="form-control" th:field="*{data}" required>
+                <input type="datetime-local" id="data" class="form-control" th:field="*{data}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:errors="*{data}"></div>
             </div>
 
             <div class="mb-3">
                 <label for="valor" class="form-label">Valor (R$)</label>
-                <input type="number" step="0.01" id="valor" class="form-control" th:field="*{valor}" required>
+                <input type="number" step="0.01" id="valor" class="form-control" th:field="*{valor}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:errors="*{valor}"></div>
             </div>
 
             <div class="mb-3">
                 <label for="observacao" class="form-label">Observação</label>
-                <textarea id="observacao" class="form-control" th:field="*{observacao}" rows="3"></textarea>
+                <textarea id="observacao" class="form-control" th:field="*{observacao}" rows="3" th:errorclass="is-invalid"></textarea>
+                <div class="invalid-feedback" th:errors="*{observacao}"></div>
             </div>
 
             <div class="d-flex mt-3 gap-3">
