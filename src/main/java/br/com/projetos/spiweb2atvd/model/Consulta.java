@@ -1,6 +1,9 @@
 package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
@@ -11,15 +14,22 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Data é obrigatória")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime data;
+
+    @Min(value = 1, message = "Ainda não tamo fazendo caridade fi")
     private double valor;
+
+    @NotBlank
     private String observacao;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "medico_id")
     private Medico medico;

@@ -2,8 +2,10 @@ package br.com.projetos.spiweb2atvd.controller;
 
 import br.com.projetos.spiweb2atvd.model.Paciente;
 import br.com.projetos.spiweb2atvd.repository.PacienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -56,9 +58,12 @@ public class PacienteController {
      * @return String de redirecionamento para a lista.
      */
     @PostMapping("/save")
-    public String save(Paciente paciente) {
+    public ModelAndView save(@Valid Paciente paciente, BindingResult binding) {
+        if (binding.hasErrors()) {
+            return form(paciente);
+        }
         repository.save(paciente);
-        return "redirect:/paciente/list";
+        return new ModelAndView("redirect:/paciente/list");
     }
 
     /**

@@ -1,6 +1,7 @@
 package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_pessoa")
@@ -9,7 +10,11 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank()
     private String email;
+
+    @NotBlank
     private String telefone;
 
     public Pessoa() {

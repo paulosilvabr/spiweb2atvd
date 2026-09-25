@@ -4,8 +4,10 @@ import br.com.projetos.spiweb2atvd.model.Consulta;
 import br.com.projetos.spiweb2atvd.repository.ConsultaRepository;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
 import br.com.projetos.spiweb2atvd.repository.PacienteRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,9 +67,16 @@ public class ConsultaController {
      * Isso impede que o usuário aperte F5 e reenvie acidentalmente o formulário.
      */
     @PostMapping("/save")
-    public String save(Consulta consulta) {
+    public ModelAndView save(@Valid Consulta consulta, BindingResult result) {
+        if (result.hasErrors()){
+            return form(consulta);
+        }
+        // Resolve as entidades pelo ID enviado pelo formulário,
+        // pois o Spring não converte automaticamente Long → entidade JPA
+        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()));
+        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()));
         repository.save(consulta);
-        return "redirect:/consulta/list";
+        return new ModelAndView("redirect:/consulta/list");
     }
 
     /**
@@ -85,10 +94,10 @@ public class ConsultaController {
      * e novamente utiliza o padrão PRG redirecionando a página.
      */
     @PostMapping("/update")
-    public String update(Consulta consulta, @RequestParam Long pacienteId, @RequestParam Long medicoId) {
+    public String update(Consulta consulta) {
+        // Resolve as entidades pelo ID enviado pelo formulário
         consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()));
         consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()));
-
         repository.update(consulta);
         return "redirect:/consulta/list";
     }
