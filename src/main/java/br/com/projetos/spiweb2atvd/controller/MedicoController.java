@@ -2,10 +2,14 @@ package br.com.projetos.spiweb2atvd.controller;
 
 import br.com.projetos.spiweb2atvd.model.Medico;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.swing.*;
 
 /**
  * Controlador responsável por gerenciar as requisições relacionadas a Médicos.
@@ -56,9 +60,12 @@ public class MedicoController {
      * @return String de redirecionamento para a lista.
      */
     @PostMapping("/save")
-    public String save(Medico medico) {
+    public ModelAndView save(@Valid Medico medico,  BindingResult result) {
+        if (result.hasErrors()) {
+            return form(medico);
+        }
         repository.save(medico);
-        return "redirect:/medico/list";
+        return new ModelAndView("redirect:/medico/list");
     }
 
     /**
