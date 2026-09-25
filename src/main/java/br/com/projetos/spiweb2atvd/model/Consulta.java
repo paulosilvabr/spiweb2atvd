@@ -1,6 +1,7 @@
 package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
@@ -11,9 +12,14 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime data;
+
+    @NotBlank
     private double valor;
+
+    @NotBlank
     private String observacao;
 
     @ManyToOne

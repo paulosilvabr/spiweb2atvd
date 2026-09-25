@@ -1,6 +1,8 @@
 package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
 @Table(name = "tb_medico")
 @PrimaryKeyJoinColumn(name = "id_pessoa_fisica")
 public class Medico extends PessoaFisica {
+    @NotBlank
     private String crm;
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL)
