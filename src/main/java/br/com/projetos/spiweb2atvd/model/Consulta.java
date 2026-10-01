@@ -1,10 +1,9 @@
 package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,14 +13,18 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Data é obrigatória")
+    @NotNull
+    @FutureOrPresent
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime data;
 
-    @Min(value = 1, message = "Ainda não tamo fazendo caridade fi")
-    private double valor;
+    @Positive
+    @DecimalMin("0.01")
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal valor;
 
     @NotBlank
+    @Pattern(regexp = "^[\\p{L}\\p{N}\\p{P}\\p{Z}]+$", message = "A observação contém caracteres inválidos")
     private String observacao;
 
     @NotNull
@@ -52,11 +55,11 @@ public class Consulta {
         this.data = data;
     }
 
-    public double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
