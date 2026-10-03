@@ -2,16 +2,16 @@ package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_pessoa_fisica")
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 @Getter
 @Setter
-@NoArgsConstructor
+@SuperBuilder
+@AllArgsConstructor // para o SuperBuilder
+@NoArgsConstructor // para o Hibernate
 public abstract class PessoaFisica extends Pessoa {
 
     @NotBlank

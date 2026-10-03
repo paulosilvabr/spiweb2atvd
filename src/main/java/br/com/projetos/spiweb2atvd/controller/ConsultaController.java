@@ -1,11 +1,11 @@
 package br.com.projetos.spiweb2atvd.controller;
 
 import br.com.projetos.spiweb2atvd.model.Consulta;
-import br.com.projetos.spiweb2atvd.model.Paciente;
 import br.com.projetos.spiweb2atvd.repository.ConsultaRepository;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
 import br.com.projetos.spiweb2atvd.repository.PacienteRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -21,19 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Transactional
 @RequestMapping("consulta")
+@RequiredArgsConstructor
 public class ConsultaController {
 
     private final ConsultaRepository repository;
     private final PacienteRepository pacienteRepository;
     private final MedicoRepository medicoRepository;
-
-    public ConsultaController(ConsultaRepository repository, 
-                              PacienteRepository pacienteRepository, 
-                              MedicoRepository medicoRepository) {
-        this.repository = repository;
-        this.pacienteRepository = pacienteRepository;
-        this.medicoRepository = medicoRepository;
-    }
 
     /**
      * Método acionado ao acessar /consulta/list.

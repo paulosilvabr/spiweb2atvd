@@ -3,6 +3,7 @@ package br.com.projetos.spiweb2atvd.controller;
 import br.com.projetos.spiweb2atvd.model.Paciente;
 import br.com.projetos.spiweb2atvd.repository.PacienteRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -12,13 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Transactional
 @RequestMapping("paciente")
+@RequiredArgsConstructor
 public class PacienteController {
 
     private final PacienteRepository repository;
-
-    public PacienteController(PacienteRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping("/list")
     public ModelAndView list() {

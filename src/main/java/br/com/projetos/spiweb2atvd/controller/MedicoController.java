@@ -3,6 +3,7 @@ package br.com.projetos.spiweb2atvd.controller;
 import br.com.projetos.spiweb2atvd.model.Medico;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -18,17 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Transactional
 @RequestMapping("medico")
+@RequiredArgsConstructor
 public class MedicoController {
 
     private final MedicoRepository repository;
-
-    /**
-     * Construtor para injeção de dependência do repositório.
-     * @param repository O repositório de Medico.
-     */
-    public MedicoController(MedicoRepository repository) {
-        this.repository = repository;
-    }
 
     /**
      * Lista todos os médicos cadastrados.

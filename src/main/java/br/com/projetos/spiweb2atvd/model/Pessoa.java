@@ -2,16 +2,16 @@ package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "tb_pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-@NoArgsConstructor
+@SuperBuilder
+@AllArgsConstructor // para o SuperBuilder
+@NoArgsConstructor // para o Hibernate
 public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

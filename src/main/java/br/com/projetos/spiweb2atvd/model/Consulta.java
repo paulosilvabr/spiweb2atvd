@@ -2,9 +2,7 @@ package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +11,9 @@ import java.time.LocalDateTime;
 @Table(name = "tb_consulta")
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
+@AllArgsConstructor // para o SuperBuilder
+@NoArgsConstructor // para o Hibernate
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

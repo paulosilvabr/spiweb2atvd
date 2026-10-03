@@ -2,9 +2,7 @@ package br.com.projetos.spiweb2atvd.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,9 @@ import java.util.List;
 @Table(name = "tb_medico")
 @Getter
 @Setter
-@NoArgsConstructor
+@SuperBuilder
+@AllArgsConstructor // para o SuperBuilder
+@NoArgsConstructor // para o Hibernate
 @PrimaryKeyJoinColumn(name = "id_pessoa_fisica")
 public class Medico extends PessoaFisica {
 
