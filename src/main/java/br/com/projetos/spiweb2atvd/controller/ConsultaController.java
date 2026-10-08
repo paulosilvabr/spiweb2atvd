@@ -5,6 +5,7 @@ import br.com.projetos.spiweb2atvd.repository.ConsultaRepository;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
 import br.com.projetos.spiweb2atvd.repository.PacienteRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -20,19 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @Transactional
 @RequestMapping("consulta")
+@RequiredArgsConstructor
 public class ConsultaController {
 
     private final ConsultaRepository repository;
     private final PacienteRepository pacienteRepository;
     private final MedicoRepository medicoRepository;
-
-    public ConsultaController(ConsultaRepository repository, 
-                              PacienteRepository pacienteRepository, 
-                              MedicoRepository medicoRepository) {
-        this.repository = repository;
-        this.pacienteRepository = pacienteRepository;
-        this.medicoRepository = medicoRepository;
-    }
 
     /**
      * Método acionado ao acessar /consulta/list.
@@ -73,8 +67,8 @@ public class ConsultaController {
         }
         // Resolve as entidades pelo ID enviado pelo formulário,
         // pois o Spring não converte automaticamente Long → entidade JPA
-        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()));
-        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()));
+        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()).orElseThrow());
+        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()).orElseThrow());
         repository.save(consulta);
         return new ModelAndView("redirect:/consulta/list");
     }
@@ -85,7 +79,7 @@ public class ConsultaController {
      */
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
-        Consulta consulta = repository.findById(id);
+        Consulta consulta = repository.findById(id).orElseThrow()  ;
         return form(consulta);
     }
 
@@ -96,9 +90,10 @@ public class ConsultaController {
     @PostMapping("/update")
     public String update(Consulta consulta) {
         // Resolve as entidades pelo ID enviado pelo formulário
-        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()));
-        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()));
-        repository.update(consulta);
+        consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()).orElseThrow());
+        consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()).orElseThrow());
+        // save() funciona para INSERT e UPDATE: se o ID existir, ele atualiza
+        repository.save(consulta);
         return "redirect:/consulta/list";
     }
 
@@ -107,7 +102,7 @@ public class ConsultaController {
      */
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
         return "redirect:/consulta/list";
     }
 }

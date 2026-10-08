@@ -3,13 +3,14 @@ package br.com.projetos.spiweb2atvd.controller;
 import br.com.projetos.spiweb2atvd.model.Medico;
 import br.com.projetos.spiweb2atvd.repository.MedicoRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.swing.*;
+
 
 /**
  * Controlador responsável por gerenciar as requisições relacionadas a Médicos.
@@ -18,17 +19,10 @@ import javax.swing.*;
 @Controller
 @Transactional
 @RequestMapping("medico")
+@RequiredArgsConstructor
 public class MedicoController {
 
     private final MedicoRepository repository;
-
-    /**
-     * Construtor para injeção de dependência do repositório.
-     * @param repository O repositório de Medico.
-     */
-    public MedicoController(MedicoRepository repository) {
-        this.repository = repository;
-    }
 
     /**
      * Lista todos os médicos cadastrados.
@@ -75,7 +69,7 @@ public class MedicoController {
      */
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
-        Medico medico = repository.findById(id);
+        Medico medico = repository.findById(id).orElseThrow();
         return form(medico);
     }
 
@@ -86,7 +80,7 @@ public class MedicoController {
      */
     @PostMapping("/update")
     public String update(Medico medico) {
-        repository.update(medico);
+        repository.save(medico);
         return "redirect:/medico/list";
     }
 
@@ -97,7 +91,7 @@ public class MedicoController {
      */
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
-        repository.delete(id);
+        repository.deleteById(id);
         return "redirect:/medico/list";
     }
 
@@ -108,7 +102,7 @@ public class MedicoController {
      */
     @GetMapping("/consultas/{id}")
     public ModelAndView consultasMedico(@PathVariable("id") Long id) {
-        Medico medico = repository.findById(id);
+        Medico medico = repository.findById(id).orElseThrow();
         ModelAndView mv = new ModelAndView("medico/consultas");
         mv.addObject("medico", medico);
         // Devido ao @Transactional na classe, a lista de consultas será carregada corretamente pelo Hibernate (Lazy Loading)
