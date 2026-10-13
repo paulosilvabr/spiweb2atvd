@@ -9,7 +9,7 @@
 
             <div class="mb-3">
                 <label for="paciente" class="form-label">Paciente</label>
-                <select id="paciente" class="form-select" th:field="*{paciente.id}" th:errorclass="is-invalid">
+                <select id="paciente" class="form-select" th:field="*{paciente}" th:errorclass="is-invalid">
                     <option value="">Selecione...</option>
                     <option th:each="p : ${pacientes}" th:value="${p.id}" th:text="${p.nome}"></option>
                 </select>
@@ -18,7 +18,7 @@
 
             <div class="mb-3">
                 <label for="medico" class="form-label">Médico</label>
-                <select id="medico" class="form-select" th:field="*{medico.id}" th:errorclass="is-invalid">
+                <select id="medico" class="form-select" th:field="*{medico}" th:errorclass="is-invalid">
                     <option value="">Selecione...</option>
                     <option th:each="m : ${medicos}" th:value="${m.id}" th:text="${m.nome}"></option>
                 </select>
