@@ -1,9 +1,6 @@
 package br.com.projetos.spiweb2atvd.repository;
 
 import br.com.projetos.spiweb2atvd.model.Medico;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

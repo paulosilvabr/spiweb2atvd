@@ -88,13 +88,16 @@ public class ConsultaController {
      * e novamente utiliza o padrão PRG redirecionando a página.
      */
     @PostMapping("/update")
-    public String update(Consulta consulta) {
+    public ModelAndView update(@Valid Consulta consulta, BindingResult result) {
+        if (result.hasErrors()) {
+            return form(consulta);
+        }
         // Resolve as entidades pelo ID enviado pelo formulário
         consulta.setPaciente(pacienteRepository.findById(consulta.getPaciente().getId()).orElseThrow());
         consulta.setMedico(medicoRepository.findById(consulta.getMedico().getId()).orElseThrow());
         // save() funciona para INSERT e UPDATE: se o ID existir, ele atualiza
         repository.save(consulta);
-        return "redirect:/consulta/list";
+        return new ModelAndView("redirect:/consulta/list");
     }
 
     /**
