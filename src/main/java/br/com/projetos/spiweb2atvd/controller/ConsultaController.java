@@ -108,4 +108,15 @@ public class ConsultaController {
         repository.deleteById(id);
         return "redirect:/consulta/list";
     }
+
+    /**
+     * Exibe apenas os detalhes de uma consulta (Somente Leitura)
+     */
+    @GetMapping("/details/{id}")
+    public ModelAndView details(@PathVariable("id") Long id) {
+        Consulta consulta = repository.findById(id).orElseThrow();
+        ModelAndView mv = new ModelAndView("consulta/details");
+        mv.addObject("consulta", consulta);
+        return mv;
+    }
 }

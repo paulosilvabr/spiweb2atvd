@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html th:replace="~{fragments/layout :: layout('Detalhes da Consulta', ~{::content})}" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="content">
+    <div class="container">
+        <h1>Detalhes da Consulta</h1>
+
+        <div class="card mt-4 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Consulta #<span th:text="${consulta.id}"></span></h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong class="text-muted">Data e Hora:</strong>
+                        <p class="fs-5" th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy HH:mm')}"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong class="text-muted">Valor:</strong>
+                        <p class="fs-5" th:text="'R$ ' + ${consulta.valor}"></p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong class="text-muted">Paciente:</strong>
+                        <p class="fs-5" th:text="${consulta.paciente.nome}"></p>
+                        <small class="text-muted" th:text="'CPF: ' + ${consulta.paciente.cpf}"></small>
+                    </div>
+                    <div class="col-md-6">
+                        <strong class="text-muted">Médico:</strong>
+                        <p class="fs-5" th:text="${consulta.medico.nome}"></p>
+                        <small class="text-muted" th:text="'CRM: ' + ${consulta.medico.crm}"></small>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <strong class="text-muted">Observação:</strong>
+                        <!-- A div abaixo tem um fundo cinza claro para destacar o texto -->
+                        <div class="p-3 bg-light rounded mt-2 border">
+                            <span th:text="${consulta.observacao} ?: 'Nenhuma observação registrada.'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white d-flex gap-2">
+                <a th:href="@{/consulta/list}" class="btn btn-secondary">Voltar para a Agenda</a>
+                <a th:href="@{/consulta/edit/{id}(id=${consulta.id})}" class="btn btn-primary">Editar Consulta</a>
+            </div>
+        </div>
+
+    </div>
+</th:block>
+</html>
